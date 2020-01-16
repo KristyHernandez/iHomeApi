@@ -8,6 +8,8 @@ var app = express();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var gpsRouter = require('./routes/gps');
+var apRouter = require('./routes/apartamentos');
 var formidable = require('formidable');
 
 var app = express()
@@ -18,47 +20,51 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var op = {
-  origin:"*",
-  methods:['POST','GET'],
+  origin: "*",
+  methods: ['POST', 'GET'],
   credentials: true,
-  maxAge:3600
+  maxAge: 3600
 }
 app.use(cors(op));
 
-app.get('/', function (req, res){
+app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 // upload
 let MB = 1024 * 1024;
 let form = new formidable.IncomingForm();
-form.maxFileSize = 1000 * MB;//default maxFileSize is 200MB
-form.multiples = true;//default false
+form.maxFileSize = 1000 * MB; //default maxFileSize is 200MB
+form.multiples = true; //default false
 
 // upload Images
-app.post('/', function (req, res){
+app.post('/', function(req, res) {
   var form = new formidable.IncomingForm();
 
   form.parse(req);
 
-  form.on('fileBegin', function (name, file){
-      file.path = __dirname + '/uploads/' + file.name;
+  form.on('fileBegin', function(name, file) {
+    file.path = __dirname + '/uploads/' + file.name;
   });
 
-  form.on('file', function (name, file){
-      console.log('Uploaded ' + file.name);
+  form.on('file', function(name, file) {
+    console.log('Uploaded ' + file.name);
   });
 
   res.sendFile(__dirname + '/index.html');
 });
 
 app.listen(3000);
-app.use('/',cors(op), indexRouter);
+app.use('/', cors(op), indexRouter);
 app.use('/users', cors(op), usersRouter);
+app.use('/gps', cors(op), gpsRouter);
+app.use('/apartamentos', cors(op), apRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
