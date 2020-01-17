@@ -6,6 +6,8 @@ var logger = require('morgan');
 var cors = require('cors')
 var app = express();
 
+var fileUpload = require('express-fileupload');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var gpsRouter = require('./routes/gps');
@@ -19,6 +21,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
+
+app.use(fileUpload({
+  limits: {
+    fileSize: 60 * 1024 * 1024
+  },
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({
   extended: false
