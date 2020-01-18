@@ -1,7 +1,7 @@
 const config = {
   app: {
     port: 3002,
-    host: 'localhost',
+    host: '192.168.2.228',
     mapsApiKey: 'AIzaSyDE64BpN2AidKwYdFcsLZWaQqHsUVysS2A'
   },
   db: {

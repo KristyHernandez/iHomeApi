@@ -11,13 +11,12 @@ exports.uplFoto = async function(req, res, next) {
 
   var img_nombre = `apartamento_${req.body.id}_${v_date}_img.jpg`
 
-  // var ruta = `${config.patch_img}${img_nombre}`
-  var ruta = `./${img_nombre}`
+  var ruta = `C:/xampp/htdocs/${img_nombre}`
   let resp = await req.files.image.mv(`${ruta}`, function(err) {
     return 'error'
   })
 
-  let data = await pg.func('app.asigna_img', [req.body.id, img_nombre]).catch(err => {})
+  let data = await pg.func('app.asigna_img', [req.body.id, `http://localhost/${img_nombre}`]).catch(err => {})
 
   res.send({
     status: 'bien'
