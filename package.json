@@ -6,7 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
-    "@angular/core": "^8.2.14",
+    "@angular/core": "^11.0.5",
     "@ionic/angular": "^4.11.5",
     "bluebird": "^3.7.1",
     "cookie-parser": "~1.4.4",
